@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import TicketSegment from './TicketSegment'
 class Ticket extends Component {
   constructor(props) {
   super(props);
@@ -13,6 +13,7 @@ class Ticket extends Component {
           <div className="c-flights_ticket-container">
               <div className="c-flights_ticket-content">
                   <div className="c-flights_ticket-summary">
+                      <TicketSegment />
                       <div className="c-flights_ticket-summary-deal">
                           <div className="c-flights_ticket-summary-deal-main">
                               <div className="c-flights_ticket-summary-deal-prices">
