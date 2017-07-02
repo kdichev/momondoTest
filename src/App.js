@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
+import Ticket from './components/Ticket';
 
 class App extends Component {
   render() {
@@ -10,6 +11,7 @@ class App extends Component {
               <div className="c-app_developertest-body">
                   <div className="c-app_developertest-layout">
                       <div className="c-app_developertest-body-content">
+                        <Ticket />
                       </div>
                   </div>
               </div>
