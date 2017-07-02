@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Ticket from './components/Ticket';
 import api from './util/api.js';
 import lib from './util/lib';
+import _ from 'lodash'
 
 class App extends Component {
   constructor(props) {
@@ -19,9 +20,12 @@ class App extends Component {
         console.log("Error loading data: ", err);
       } else {
         lib.prepareRenderData(response, (data) => {
+          var uniq = _.uniqBy(data, function(o){
+            return o.Flight.Key;
+          });
           this.setState({
-            data: data
-          })
+            data: uniq
+          });
         });
       }
     });
