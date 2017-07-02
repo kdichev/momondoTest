@@ -20,7 +20,6 @@ exports.getOfferAndFlights = (data, callback) => {
             foundLegs.push(data.Legs[leg]);
           }
         })
-
         callback(offer, data.Flights[offer.FlightIndex], data.Segments[segmentId], foundLegs);
       })
     }
@@ -30,7 +29,6 @@ exports.getOfferAndFlights = (data, callback) => {
 exports.prepareRenderData = (data, callback) => {
   let finalData = [];
   this.getOfferAndFlights(data, (offer, flight, segment, leg) => {
-    //leg = [0,1]
     finalData.push({
       'Offer': offer,
       'Flight': flight,
@@ -38,8 +36,6 @@ exports.prepareRenderData = (data, callback) => {
       'Leg': leg
     });
   });
-  // find Legs match from Flight Keys
-  // add Legs match to FinalData
   finalData.sort((a, b) => {
     return a.Offer.Price - b.Offer.Price
   });

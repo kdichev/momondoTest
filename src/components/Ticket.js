@@ -9,7 +9,7 @@ class Ticket extends Component {
   }
 
   toggleHover = () => {
-      this.setState({hover: !this.state.hover})
+    this.setState({hover: !this.state.hover})
   }
 
   render() {
