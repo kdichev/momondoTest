@@ -4,10 +4,21 @@ class Ticket extends Component {
   constructor(props) {
   super(props);
     this.state = {
+      hover: false
     };
   }
 
+  toggleHover = () => {
+      this.setState({hover: !this.state.hover})
+  }
+
   render() {
+    var linkStyle;
+    if (this.state.hover) {
+      linkStyle = {backgroundColor: '#2fd693'}
+    } else {
+      linkStyle = {backgroundColor: '#2ca179'}
+    }
     return (
       <div className="c-flights_ticket">
           <div className="c-flights_ticket-container">
@@ -26,10 +37,14 @@ class Ticket extends Component {
                               <div className="c-flights_ticket-summary-deal-button c-button c-push_button">
                                   <div className="c-button-layers">
                                       <div className="c-button-outline"></div>
-                                      <div className="c-button-fill"></div>
+                                      <div className="c-button-fill" style={linkStyle}></div>
                                   </div>
 
-                                  <div className="c-button-content" style={{color: "white"}}>
+                                  <div
+                                    className="c-button-content"
+                                    style={{color: "white"}}
+                                    onMouseEnter={this.toggleHover} onMouseLeave={this.toggleHover}
+                                    >
                                       Book
                                   </div>
                               </div>
