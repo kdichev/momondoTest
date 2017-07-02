@@ -8,6 +8,7 @@ class App extends Component {
   constructor(props) {
   super(props);
     this.state = {
+      data: []
     };
   }
 
@@ -17,7 +18,11 @@ class App extends Component {
       if (err) {
         console.log("Error loading data: ", err);
       } else {
-        console.log("Recieved Data: ", response);
+        lib.prepareRenderData(response, (data) => {
+          this.setState({
+            data: data
+          })
+        });
       }
     });
   }
@@ -29,7 +34,9 @@ class App extends Component {
               <div className="c-app_developertest-body">
                   <div className="c-app_developertest-layout">
                       <div className="c-app_developertest-body-content">
-                        <Ticket />
+                        {this.state.data.map((offer, index) =>
+                          <Ticket ticketData={offer} key={index}/>
+                        )}
                       </div>
                   </div>
               </div>
