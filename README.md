@@ -4,9 +4,8 @@ In the project directory, you can run:
 
 ### `npm start`
 or
-### `yarn start'*
+### `yarn start` - install yarn if you do not have it
 
-*need to instal yarn
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
