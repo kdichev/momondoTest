@@ -60,3 +60,18 @@ exports.convertMinsToHrsMins = (minutes) => {
   }
   return h + 'h ' + m + 'm';
 }
+
+let data = {
+  Flights: [],
+  Legs: [],
+  Offers: [],
+  Segments: []
+};
+
+exports.concatinateData = (response) => {
+  data.Flights = data.Flights.concat(response.Flights)
+  data.Legs = data.Legs.concat(response.Legs)
+  data.Offers = data.Offers.concat(response.Offers)
+  data.Segments = data.Segments.concat(response.Segments)
+  return data
+}
