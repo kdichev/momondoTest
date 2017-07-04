@@ -1,12 +1,6 @@
 
 const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
 const TARGET_URL = 'http://momondodevapi.herokuapp.com/api/1.0/FlightSearch/'
-let data = {
-  Flights: [],
-  Legs: [],
-  Offers: [],
-  Segments: []
-};
 
 exports.fetch = (UDID, callback) => {
   fetch(PROXY_URL + TARGET_URL + UDID)

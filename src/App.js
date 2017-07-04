@@ -21,7 +21,7 @@ class App extends Component {
       if (err) {
         console.log("Error loading data: ", err);
       } else {
-        lib.prepareRenderData(response, (data) => {
+        lib.prepareRenderData(lib.concatinateData(response), (data) => {
           var uniq = _.uniqBy(data, (o) => {
             return o.Flight.Key;
           });
