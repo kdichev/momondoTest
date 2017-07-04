@@ -6,12 +6,11 @@ exports.fetch = (UDID, callback) => {
   fetch(PROXY_URL + TARGET_URL + UDID)
     .then(blob => blob.json())
     .then(response => {
+      callback(response)
       if (response.Done === true) {
-        callback(response)
         return
       }
       this.fetch(UDID, callback);
-      callback(response)
     })
     .catch(err => {
       callback(err)
