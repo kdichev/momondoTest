@@ -12,16 +12,12 @@ exports.fetch = (UDID, callback) => {
   fetch(PROXY_URL + TARGET_URL + UDID)
     .then(blob => blob.json())
     .then(response => {
-      console.log(data);
-      data.Flights = data.Flights.concat(response.Flights)
-      data.Legs = data.Legs.concat(response.Legs)
-      data.Offers = data.Offers.concat(response.Offers)
-      data.Segments = data.Segments.concat(response.Segments)
       if (response.Done === true) {
-        callback(data);
-      } else {
-        this.fetch(UDID, callback)
+        callback(response)
+        return
       }
+      this.fetch(UDID, callback);
+      callback(response)
     })
     .catch(err => {
       callback(err)
