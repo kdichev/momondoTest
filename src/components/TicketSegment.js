@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import moment from 'moment'
 import lib from './../util/lib'
 
+/**
+* TicketSegment - displays each ticket segment
+* @prop  {array} legs of objects
+*
+*/
 class TicketSegment extends Component {
   render() {
     return (
