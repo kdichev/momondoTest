@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import TicketSegment from './TicketSegment'
 import lib from './../util/lib';
+import PropTypes from 'prop-types';
 
+/**
+* Ticket - displays each ticket
+* @prop  {object} TicketData
+*/
 class Ticket extends Component {
   constructor(props) {
   super(props);
@@ -65,5 +70,9 @@ class Ticket extends Component {
     );
   }
 }
+
+Ticket.propTypes = {
+  ticketData: PropTypes.object.isRequired
+};
 
 export default Ticket;
