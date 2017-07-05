@@ -109,7 +109,7 @@ class App extends Component {
     api.fetch(UDID, (response, err) => {
       if (err) {
         console.log("Error loading data: ", err)
-      } else {
+      } else if (lib.isEmptyObject(response)) {
         this.prepareRenderData(this.concatinateData(response), (data) => {
           this.setState({
             data: data,

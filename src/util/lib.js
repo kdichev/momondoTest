@@ -25,3 +25,10 @@ exports.convertMinsToHrsMins = (minutes) => {
   }
   return h + 'h ' + m + 'm';
 }
+
+exports.isEmptyObject = (object) => {
+  if (Object.keys(object).length !== 0 && object.constructor === Object) {
+    return true
+  }
+  return false
+}
