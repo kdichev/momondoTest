@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment'
 import lib from './../util/lib'
+import PropTypes from 'prop-types';
 
 /**
 * TicketSegment - displays each ticket segment
@@ -53,5 +54,18 @@ class TicketSegment extends Component {
     );
   }
 }
+
+TicketSegment.propTypes = {
+  legs: PropTypes.arrayOf(PropTypes.shape({
+     AirlineName: PropTypes.string.isRequired,
+     OriginIata: PropTypes.string.isRequired,
+     Departure: PropTypes.string.isRequired,
+     OriginDisplayName: PropTypes.string.isRequired,
+     Duration: PropTypes.number.isRequired,
+     Arrival: PropTypes.string.isRequired,
+     DestinationIata: PropTypes.string.isRequired,
+     DestinationDisplayName: PropTypes.string.isRequired,
+   })).isRequired,
+};
 
 export default TicketSegment;

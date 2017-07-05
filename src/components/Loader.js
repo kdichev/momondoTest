@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 /**
 * Loader - displays loader
@@ -20,5 +21,9 @@ class Loader extends Component {
     );
   }
 }
+
+Loader.propTypes = {
+  show: PropTypes.bool.isRequired
+};
 
 export default Loader;
