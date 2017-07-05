@@ -4,16 +4,22 @@ import Ticket from './components/Ticket'
 import Loader from './components/Loader'
 import api from './util/api.js'
 import lib from './util/lib'
-import _ from 'lodash'
+//import _ from 'lodash'
 
-let data = {
-  Flights: [],
-  Legs: [],
-  Offers: [],
-  Segments: []
-}
+// let data = {
+//   Flights: [],
+//   Legs: [],
+//   Offers: [],
+//   Segments: []
+// }
 
-class App extends Component {
+/**
+* App - component description
+*
+*
+*/
+
+export default class App extends Component {
   constructor(props) {
   super(props)
     this.state = {
@@ -22,12 +28,14 @@ class App extends Component {
     }
   }
 
+  // TODO: fix the way data is concatinated
   concatinateData = (response) => {
-    data.Flights = data.Flights.concat(response.Flights)
-    data.Legs = data.Legs.concat(response.Legs)
-    data.Offers = data.Offers.concat(response.Offers)
-    data.Segments = data.Segments.concat(response.Segments)
-    return data
+    // data.Flights = data.Flights.concat(response.Flights)
+    // data.Legs = data.Legs.concat(response.Legs)
+    // data.Offers = data.Offers.concat(response.Offers)
+    // data.Segments = data.Segments.concat(response.Segments)
+    // return data
+    return response
   }
 
   /**
@@ -37,17 +45,18 @@ class App extends Component {
   * @return {func} callback description
   */
   getOfferAndFlights = (data, callback) => {
-    data.Offers.map((offer, index) => {
+    data.Offers.map((offer, index) =>
       data.Flights.map((flight, index) => {
         if (offer.FlightIndex === index) {
-          var foundLegs = []
-          this.getSegmentsAndLegs(flight.SegmentIndexes, data.Segments, data.Legs, (leg) => {
-            foundLegs.push(leg)
-          })
-          callback(offer, flight, foundLegs)
+          let legs = []
+          this.getSegmentsAndLegs(flight.SegmentIndexes, data.Segments, data.Legs, (leg) =>
+            legs.push(leg)
+          )
+          return callback(offer, flight, legs)
         }
+        return false
       })
-    })
+    )
   }
 
   /**
@@ -59,19 +68,22 @@ class App extends Component {
   * @return {func} callback description
   */
   getSegmentsAndLegs = (sid, segments, legs, callback) => {
-    sid.map((segmentIndex) => {
+    sid.map((segmentIndex) =>
       segments.map((segment, index) => {
         if (segmentIndex === index) {
           legs.map((leg, index) => {
             segment.LegIndexes.map((legIndex) => {
               if (legIndex === index) {
-                callback(leg)
+                return callback(leg)
               }
+              return false
             })
+            return false
           })
         }
+        return false
       })
-    })
+    )
   }
 
   /**
@@ -83,7 +95,6 @@ class App extends Component {
   prepareRenderData  = (data, callback) => {
     let finalData = []
     this.getOfferAndFlights(data, (offer, flight, leg) => {
-      console.log(finalData);
       finalData.push({
         'Offer': offer,
         'Flight': flight,
@@ -96,10 +107,6 @@ class App extends Component {
     callback(finalData)
   }
 
-
-  toggleLoader = () => {
-    this.setState({loader: !this.state.loader})
-  }
   /**
   * componentDidMount - Create UDID and pass it to get data with fetch
   *
@@ -120,6 +127,10 @@ class App extends Component {
     })
   }
 
+  toggleLoader = () => {
+    this.setState({loader: !this.state.loader})
+  }
+
   render() {
     return (
       <div className="c-app">
@@ -129,9 +140,10 @@ class App extends Component {
                   <div className="c-app_developertest-layout">
                       <div className="c-app_developertest-body-content">
                         <Loader show={this.state.loader}/>
-                        {this.state.data.map((offer, index) =>
-                          <Ticket ticketData={offer} key={index}/>
-                        )}
+                        {this.state.data &&
+                          this.state.data.map((offer, index) =>
+                            <Ticket ticketData={offer} key={index}/>
+                          )}
                       </div>
                   </div>
               </div>
@@ -140,5 +152,3 @@ class App extends Component {
     )
   }
 }
-
-export default App

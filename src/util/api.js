@@ -7,7 +7,7 @@ exports.fetch = (UDID, callback) => {
     .then(blob => blob.json())
     .then(response => {
       callback(response)
-      if (response.Done === true) {
+      if (response.ResultNumber === 0) {
         return
       }
       this.fetch(UDID, callback);
