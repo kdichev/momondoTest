@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import Header from './components/Header';
-import Ticket from './components/Ticket';
-import Loader from './components/Loader';
-import api from './util/api.js';
-import lib from './util/lib';
+import React, { Component } from 'react'
+import Header from './components/Header'
+import Ticket from './components/Ticket'
+import Loader from './components/Loader'
+import api from './util/api.js'
+import lib from './util/lib'
 import _ from 'lodash'
 
 let data = {
@@ -11,50 +11,15 @@ let data = {
   Legs: [],
   Offers: [],
   Segments: []
-};
+}
 
 class App extends Component {
   constructor(props) {
-  super(props);
+  super(props)
     this.state = {
       data: [],
-      showLoader: true
-    };
-  }
-
-  getOfferAndFlights = (data, callback) => {
-    data.Offers.map((offer, index) => {
-      if (typeof data.Flights[offer.FlightIndex] !== 'undefined') {
-        var a = data.Flights[offer.FlightIndex].Key.split('|');
-        var b = a[1].split(',');
-        data.Flights[offer.FlightIndex].FlightKeys = b
-        let foundLegs = []
-        data.Flights[offer.FlightIndex].SegmentIndexes.map((segmentId) => {
-          data.Segments[segmentId].LegIndexes.map((leg, index) => {
-            if (leg === segmentId) {
-              foundLegs.push(data.Legs[leg]);
-            }
-          })
-          callback(offer, data.Flights[offer.FlightIndex], data.Segments[segmentId], foundLegs);
-        })
-      }
-    })
-  }
-
-  prepareRenderData = (data, callback) => {
-    let finalData = [];
-    this.getOfferAndFlights(data, (offer, flight, segment, leg) => {
-      finalData.push({
-        'Offer': offer,
-        'Flight': flight,
-        'Segment': segment,
-        'Leg': leg
-      });
-    });
-    finalData.sort((a, b) => {
-      return a.Offer.Price - b.Offer.Price
-    });
-    callback(finalData);
+      loader: true
+    }
   }
 
   concatinateData = (response) => {
@@ -65,24 +30,74 @@ class App extends Component {
     return data
   }
 
+
+  getOfferAndFlights = (data, callback) => {
+    data.Offers.map((offer, index) => {
+      data.Flights.map((flight, index) => {
+        if (offer.FlightIndex === index) {
+          var foundLegs = []
+          this.getSegmentsAndLegs(flight.SegmentIndexes, data.Segments, data.Legs, (leg) => {
+            foundLegs.push(leg)
+          })
+          callback(offer, flight, foundLegs)
+        }
+      })
+    })
+  }
+
+  getSegmentsAndLegs = (sid, segments, legs, callback) => {
+    sid.map((segmentIndex) => {
+      segments.map((segment, index) => {
+        if (segmentIndex === index) {
+          legs.map((leg, index) => {
+            segment.LegIndexes.map((legIndex) => {
+              if (legIndex === index) {
+                callback(leg)
+              }
+            })
+          })
+        }
+      })
+    })
+  }
+
+  prepareRenderData  = (data, callback) => {
+    let finalData = []
+    this.getOfferAndFlights(data, (offer, flight, leg) => {
+      console.log(finalData);
+      finalData.push({
+        'Offer': offer,
+        'Flight': flight,
+        'Leg': leg
+      })
+      finalData.sort((a, b) => {
+        return a.Offer.Score - b.Offer.Score
+      })
+    })
+    callback(finalData)
+  }
+
+
+  toggleLoader = () => {
+    this.setState({loader: !this.state.loader})
+  }
+
   componentDidMount() {
-    const UDID = lib.getUDID();
+    const UDID = lib.getUDID()
     api.fetch(UDID, (response, err) => {
       if (err) {
-        console.log("Error loading data: ", err);
+        console.log("Error loading data: ", err)
       } else {
         this.prepareRenderData(this.concatinateData(response), (data) => {
-          var uniq = _.uniqBy(data, (o) => {
-            return o.Flight.Key;
-          });
           this.setState({
-            data: uniq,
-            showLoader: false
-          });
-        });
+            data: data,
+            loader: false
+          })
+        })
       }
-    });
+    })
   }
+
   render() {
     return (
       <div className="c-app">
@@ -91,7 +106,7 @@ class App extends Component {
               <div className="c-app_developertest-body">
                   <div className="c-app_developertest-layout">
                       <div className="c-app_developertest-body-content">
-                        <Loader show={this.state.showLoader}/>
+                        <Loader show={this.state.loader}/>
                         {this.state.data.map((offer, index) =>
                           <Ticket ticketData={offer} key={index}/>
                         )}
@@ -100,8 +115,8 @@ class App extends Component {
               </div>
           </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
