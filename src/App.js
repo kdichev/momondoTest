@@ -30,7 +30,12 @@ class App extends Component {
     return data
   }
 
-
+  /**
+  * getOfferAndFlights - map Offers according to flight indexes
+  *
+  * @param  {object} data description
+  * @return {func} callback description
+  */
   getOfferAndFlights = (data, callback) => {
     data.Offers.map((offer, index) => {
       data.Flights.map((flight, index) => {
@@ -45,6 +50,14 @@ class App extends Component {
     })
   }
 
+  /**
+  * getSegmentsAndLegs - map legs according to segment indexes
+  *
+  * @param  {object} sid description
+  * @param  {object} segments description
+  * @param  {object} legs description
+  * @return {func} callback description
+  */
   getSegmentsAndLegs = (sid, segments, legs, callback) => {
     sid.map((segmentIndex) => {
       segments.map((segment, index) => {
@@ -61,6 +74,12 @@ class App extends Component {
     })
   }
 
+  /**
+  * prepareRenderData - description
+  *
+  * @param  {object} data each offer and all of its related data
+  * @return {func} callback used to handle response
+  */
   prepareRenderData  = (data, callback) => {
     let finalData = []
     this.getOfferAndFlights(data, (offer, flight, leg) => {
@@ -81,7 +100,10 @@ class App extends Component {
   toggleLoader = () => {
     this.setState({loader: !this.state.loader})
   }
-
+  /**
+  * componentDidMount - Create UDID and pass it to get data with fetch
+  *
+  */
   componentDidMount() {
     const UDID = lib.getUDID()
     api.fetch(UDID, (response, err) => {
