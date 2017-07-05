@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment'
-import lib from './../util/lib'
+import lib from './../../util/lib';
 import PropTypes from 'prop-types';
 
 //var stoOvers = []
@@ -32,7 +31,7 @@ class TicketSegment extends Component {
                       <div className="c-flights_ticket-summary-segment-location c-flights_ticket-summary-segment-location--origin">
                           <div className="c-flights_ticket-summary-segment-iata_time">
                               <div className="c-flights_ticket-summary-segment-iata">{leg.OriginIata}</div>
-                              <div className="c-flights_ticket-summary-segment-time">{moment(leg.Departure).format('HH:MM DD/MM')}</div>
+                              <div className="c-flights_ticket-summary-segment-time">{lib.formatDate(new Date(leg.Departure))}</div>
                           </div>
                           <div className="c-flights_ticket-summary-segment-place">{leg.OriginDisplayName.split(',')[0]}</div>
                       </div>
@@ -50,7 +49,7 @@ class TicketSegment extends Component {
                       </div>
                       <div className="c-flights_ticket-summary-segment-location c-flights_ticket-summary-segment-location--destination">
                           <div className="c-flights_ticket-summary-segment-iata_time">
-                              <div className="c-flights_ticket-summary-segment-iata">{moment(leg.Arrival).format('HH:MM DD/MM')}</div>
+                              <div className="c-flights_ticket-summary-segment-iata">{lib.formatDate(new Date(leg.Arrival))}</div>
                               <div className="c-flights_ticket-summary-segment-time">{leg.DestinationIata}</div>
                           </div>
                           <div className="c-flights_ticket-summary-segment-place">{leg.DestinationDisplayName.split(',')[0]}</div>

@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import Header from './components/Header'
-import Ticket from './components/Ticket'
+import Ticket from './components/Ticket/'
 import Loader from './components/Loader'
+import Layout from './components/Layout'
+import Body from './components/Body'
 import api from './util/api.js'
 import lib from './util/lib'
-//import _ from 'lodash'
 
-// let data = {
-//   Flights: [],
-//   Legs: [],
-//   Offers: [],
-//   Segments: []
-// }
+let data = {
+  Flights: [],
+  Legs: [],
+  Offers: [],
+  Segments: []
+}
 
 /**
 * App - component description
@@ -30,12 +31,12 @@ export default class App extends Component {
 
   // TODO: fix the way data is concatinated
   concatinateData = (response) => {
-    // data.Flights = data.Flights.concat(response.Flights)
-    // data.Legs = data.Legs.concat(response.Legs)
-    // data.Offers = data.Offers.concat(response.Offers)
-    // data.Segments = data.Segments.concat(response.Segments)
-    // return data
-    return response
+    data.Flights = data.Flights.concat(response.Flights)
+    data.Legs = data.Legs.concat(response.Legs)
+    data.Offers = data.Offers.concat(response.Offers)
+    data.Segments = data.Segments.concat(response.Segments)
+    return data
+    //return response
   }
 
   /**
@@ -133,22 +134,21 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="c-app">
-          <div className="c-app_developertest">
-              <Header />
-              <div className="c-app_developertest-body">
-                  <div className="c-app_developertest-layout">
-                      <div className="c-app_developertest-body-content">
-                        <Loader show={this.state.loader}/>
-                        {this.state.data &&
-                          this.state.data.map((offer, index) =>
-                            <Ticket ticketData={offer} key={index}/>
-                          )}
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
+      <Layout>
+        <div>
+          <Header />
+          <Body>
+            <div>
+              <Loader show={this.state.loader}/>
+              {this.state.data &&
+                this.state.data.map((offer, index) =>
+                  <Ticket ticketData={offer} key={index}/>
+                )
+              }
+            </div>
+          </Body>
+        </div>
+      </Layout>
     )
   }
 }
