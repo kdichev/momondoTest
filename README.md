@@ -1,5 +1,7 @@
 ## Available Scripts
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kdichev/momondoTest.svg)](https://greenkeeper.io/)
+
 In the project directory, you can run:
 
 ### `npm start`
